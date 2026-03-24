@@ -88,3 +88,41 @@ st.markdown("""
     div[data-testid="stSidebar"] { background: #0d0d17; }
 </style>
 """, unsafe_allow_html=True)
+# ── Sidebar ───────────────────────────────────────────────────────────────────
+with st.sidebar:
+    st.markdown("### ⚙️ Configuration")
+
+    groq_api_key = st.text_input("Groq API Key", type="password", placeholder="gsk_...")
+    astra_token   = st.text_input("AstraDB Token", type="password", placeholder="AstraCS:...")
+    astra_db_id   = st.text_input("AstraDB ID", placeholder="fca479ba-...")
+
+    st.divider()
+    st.markdown("### 📚 Data Sources")
+    default_urls = [
+        "https://lilianweng.github.io/posts/2023-06-23-agent/",
+        "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
+        "https://lilianweng.github.io/posts/2023-10-25-adv-attack-llm/",
+    ]
+    urls_input = st.text_area(
+        "Vectorstore URLs (one per line)",
+        value="\n".join(default_urls),
+        height=120,
+    )
+
+    load_btn = st.button("🚀 Initialize Agent", use_container_width=True)
+
+    st.divider()
+    st.markdown("""
+    <div class="sidebar-card">
+    <b>🔀 Routing Logic</b><br><br>
+    Questions about <b>agents, prompts, adversarial attacks</b> → Vectorstore (AstraDB)<br><br>
+    All other questions → Wikipedia Search
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="sidebar-card">
+    <b>📦 Stack</b><br><br>
+    LangGraph · LangChain · AstraDB · Groq (Gemma2-9b) · HuggingFace Embeddings · Wikipedia
+    </div>
+    """, unsafe_allow_html=True)
