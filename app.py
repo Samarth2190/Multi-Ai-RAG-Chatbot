@@ -241,3 +241,20 @@ if load_btn:
                     st.success("✅ Agent ready! Start chatting below.")
                 except Exception as e:
                     st.error(f"Initialization failed: {e}")
+
+# ── Chat Interface ────────────────────────────────────────────────────────────
+if not st.session_state.agent_ready:
+    st.info("👈 Enter your API credentials in the sidebar and click **Initialize Agent** to begin.")
+else:
+    # Render history
+    for msg in st.session_state.messages:
+        if msg["role"] == "user":
+            st.markdown(f'<div class="chat-bubble-user">🧑 {msg["content"]}</div>', unsafe_allow_html=True)
+        else:
+            badge_class = "badge-wiki" if msg.get("source") == "wiki_search" else "badge-vector"
+            badge_label = "📖 WIKIPEDIA" if msg.get("source") == "wiki_search" else "🗄️ VECTORSTORE"
+            st.markdown(f"""
+            <div class="chat-bubble-bot">
+              <span class="source-badge {badge_class}">{badge_label}</span><br>
+              🤖 {msg["content"]}
+            </div>""", unsafe_allow_html=True)
